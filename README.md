@@ -1,7 +1,7 @@
 # Comp6111c_HKUST
 Project
 
-## Introducation
+## Introducation Z
 
 ### Background 
 Importance of the problem.
@@ -15,12 +15,12 @@ One sentence
 
 ## Methodology
 
-### Workflow
+### Workflow Z
 
-### Proof-of-work
+### Proof-of-work L
 Not rubbish, but something meaningful
 
-### Securiry 
+### Securiry L
 
 ## Evalution
 
