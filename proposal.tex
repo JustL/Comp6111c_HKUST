@@ -10,6 +10,9 @@
 \usepackage{graphicx}
 \usepackage[top=1in, bottom=1in, left=1.25in, right=1.25in]{geometry}
 
+
+\newcommand{\projTitle}{SOME TITLE TO INSERT}
+
 \title{COMP6111C Project Proposal}
 \author{Authors}
 \date{}
@@ -31,8 +34,13 @@ shall not incur any overhead on the miners for maintaining a globally shared blo
 for performing statistical operations on received data. The CPUs and other resources are dedicated to actions that are extensively conducted in modern data centers \cite{microsoft-autopilot} and which provide the miners with a reward. 
 
 \subsection{Data Flow and Miners}
- 
-
+ \textit{Bitcoin} has applied a design of a globally shared ledger for recording all the transactions occured in the system. Such a design separates two major groups: \textit{miners} and \textit{currency users}. As though, despite its architectural issues and perforamnce
+problems, \textit{Bitcoin} remains a global peer-to-peer network which is used by many users every day. Thus, it appears reasonable to adhere to the original proposal of \textit{Bitcoin} and segregate \textit{minders} from \textit{clients}. The proposed system, \textit{\projTitle}, exploits the fundamental principles of \textit{Bitcoin} with an extra entity: central controller, which, in data centers, may be the administrator of the data center (Figure \ref{fig:project_design}). 
+\begin{figure}[b!]
+  \includegraphics[width=0.65\linewidth]{project_design.png}
+  \caption{Design of \textit{\projTitle}}
+  \label{fig:project_design}
+\end{figure}
 
 
      
