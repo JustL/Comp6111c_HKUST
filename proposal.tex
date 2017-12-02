@@ -33,14 +33,31 @@ improvement. Data center environements are usually highly optimized and any syst
 shall not incur any overhead on the miners for maintaining a globally shared blockchain and shall not result in misuse of CPU or any other resource. Considering this, we propose a paradigm called 'Proof-of-Statistics', which employs the miners as ordinary computaion nodes
 for performing statistical operations on received data. The CPUs and other resources are dedicated to actions that are extensively conducted in modern data centers \cite{microsoft-autopilot} and which provide the miners with a reward. 
 
-\subsection{Data Flow and Miners}
- \textit{Bitcoin} has applied a design of a globally shared ledger for recording all the transactions occured in the system. Such a design separates two major groups: \textit{miners} and \textit{currency users}. As though, despite its architectural issues and perforamnce
-problems, \textit{Bitcoin} remains a global peer-to-peer network which is used by many users every day. Thus, it appears reasonable to adhere to the original proposal of \textit{Bitcoin} and segregate \textit{minders} from \textit{clients}. The proposed system, \textit{\projTitle}, exploits the fundamental principles of \textit{Bitcoin} with an extra entity: central controller, which, in data centers, may be the administrator of the data center (Figure \ref{fig:project_design}). 
-\begin{figure}[b!]
-  \includegraphics[width=0.65\linewidth]{project_design.png}
-  \caption{Design of \textit{\projTitle}}
+\subsection{Data Flow and System Participants}
+ \textit{Bitcoin} has applied a design of a globally shared ledger for recording all the transactions occured in the system \cite{bitcoin_paper}. Such a design introduces differentiation between system nodes: \textit{miners} and \textit{currency users}. As though, despite its architectural issues and perforamnce problems, \textit{Bitcoin} remains a global peer-to-peer network which is used by many users every day. Thus, it appears reasonable to adhere to the original proposal of \textit{Bitcoin} and segregate \textit{minders} from \textit{clients}. The proposed system, \textit{\projTitle}, exploits the fundamental principles of \textit{Bitcoin} with an extra entity: central controller, which, in data centers, may be the administrator of the data center (Figure \ref{fig:project_design}). The role of the central entity is minimal and is not crucial to implement the system. Though having a reliable controller unit simplifies the system and provides security benefits. The section will explain the roles of each of the entities of the system and will describe a data processing path in the rest of the section.
+   
+\begin{figure}[h!]
+  \includegraphics[width=0.6\linewidth]{project_design.png}
+  \caption{High-level Design of \textit{\projTitle}}
   \label{fig:project_design}
 \end{figure}
+
+
+\paragraph{Central Entity (Controller):} The role of the central entity is more administrative than system-crucial. Many cloud data center employ central control units for controlling system updates \cite{microsoft-autopilot}, data flows \cite{google_jupiter}, or system errors \cite{microsoft_netpoirot}. \textit{\projTitle} relies on a centralized controller for admitting new miners/clients to the system. Such an approach is chosen as currently most data centers do not support multicast packets and it is relatively expensive to flood the data center network in order to get approved as a new miner or a client. Hence, having a well-know service reduces system complexity and ensures that no data center bandwidth is wasted for just transmitting registration packets. The central entity accepts a new client and provides it with enough information about the current miners so that it can become a part of the global ecosystem (Figure \ref{fig:central_entity_client_reg}). After retrieving the needed information, the client directly interacts with miners to have its work processed and stored. Due to this, the involvement of the central entity is minimal and does not require any computationally-intensive opeartions for handling client request. Scalability is considred in the design and should not be an issue as similar systems exist in real deployments \cite{hadoop_example}. The work assumes that a commodity server should suffice for running the service in most cloud data centers. 
+\par
+
+\begin{figure}[h]
+  \includegraphics[width=0.5\linewidth]{central_entity_client_reg.png}
+  \caption{Central Entity-Client Interaction}
+  \label{fig:central_entity_client_reg}
+\end{figure}
+
+
+\noindent \newline On the other hand, the controller also is reponsible for approving new miners and supervising them to ensure that none of them abuse the system without contributing to the system.  
+
+
+
+\subsection{Work of Miners}
 
 
      
@@ -49,5 +66,4 @@ problems, \textit{Bitcoin} remains a global peer-to-peer network which is used b
 \bibliography{proposal}
 
 \end{document}
-
 
