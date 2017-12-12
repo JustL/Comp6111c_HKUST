@@ -4,7 +4,7 @@
 % Copyright (c) 2017 .
 \documentclass{article}
 
-\usepackage{polyglossia}
+%\usepackage{polyglossia}
 \usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -24,18 +24,22 @@
 \abstract{Abs...}
 
 \section{Introduction}
-The public cloud, such as Amazon EC2\cite{}, Microsoft Azure\cite{}, etc., has been an ideal place for users to host their applications in recent years. The cloud computing damatically benefit those users by providing low cost and pay-for-use computation resources, such as virtual machines (VMs). Users rent VMs from cloud service provider and deploy their applications inside VMs, such as web servers for HTTP request, FTP servers for file sharing and so on. With the increasing popularity of cloud computing, users begin to deploy some cretical applications or services, such as finacial analytical service or human resource management systems, on the cloud. How to gurantee that those services or applications will not fail acidently poses great challenges for both cloud providers and users. Traditionally, by deploying a monitoring and dignostic system, it can mitigate the risk of those grey failure, but we will show in the following parts that it is not easy and optimal for either the cloud provider or the users to deploy such an monitoring and dignostic systems.
+The public cloud, such as Amazon EC2\cite{}, Microsoft Azure\cite{}, etc., has been an ideal place for users to host their applications in recent years. The cloud computing dramatically benefit those users by providing low cost and pay-for-use computation resources, such as virtual machines (VMs). Users rent VMs from cloud service provider and deploy their applications inside VMs, such as web servers for HTTP request, FTP servers for file sharing and so on. With the increasing popularity of cloud computing, users begin to deploy some critical applications or services, such as financial analytical service or human resource management systems, on the cloud. How to guarantee that those services or applications will not fail accidently poses great challenges for both cloud providers and users. Traditionally, by deploying a monitoring and diagnostic system, it can mitigate the risk of those grey failure, but we will show in the following parts that it is not easy and optimal for either the cloud provider or the users to deploy such an monitoring and diagnostic systems.
 
-\textbf{For cloud providers.}
+\textbf{For cloud providers.} Cloud providers usually deploy some monitoring and diagnostic applications in their cloud data centers. The monitoring and diagnostic system collect data from either network or endhost and use those data to detect failure, analyze root cause and trigger troubleshooting reports. Trumpet\cite{sigcomm/trumpet} is a typical tool deployed on endhost to collect flow information, such as source/destination address to predict or report potential congested point. However, to make the Trumpet fully function, CPU, memory and bandwidth at endhost will be consumed, which is not desirable in cloud data centers where all resources are expected to be allocated for users. NetPoirot\cite{sigcomm/netpoirot} is another endhost based solution and captures TCP statistics to identifies the root cause of failure using the information at a single endhost. Both of those endhost based solution suffer from \textbf{extra resource consumption}, which indirectly \textbf{reduces the profit for cloud providers}.
 
-\textbf{For users.}
+Another category of monitoring and diagnostic system is to collect data from network instead of endhosts. These methods usually require the support from the switches, such as NetFlow\cite{url/netflow} and sFlow\cite{url/sflow}. A more recent and advanced work is Marple\cite{sigcomm/marple}, which designs and implements a hardware-specific query language to efficiently query the switch status to infer the whole network system. To adopt those in-network monitoring and diagnostic system, cloud provider should use some \textbf{advanced network switches}, which also increases the operational cost for cloud data centers.
+
+Moreover, for cloud providers, all data he can collect is from physical machines or network. However, those data cannot clearly reflect the status inside the virtual machines. As a result, it may be very \textbf{difficult for cloud providers to provide accurate and effective monitoring and diagnostic service for users}.
+
+\textbf{For users.} 
 
 \section{Proof-of-Statistics}
-Proof-of-work has been identified as a major bottleneck of scalability of \textit{Bitcoin}  and has been tackled by replacing it with some useful work \cite{filecoin-storage} or with a new system architecture \cite{RSCoin-bank}.  Replacment of proof-of-work with some  
-efficient actions in blockchain-based systems can bring a great number of benefits since the usually wasted resources aggreate to an enormous amount of  computational power \cite{bitcoin-comp-elec-power}. Cloud data centers are not an exception for such an 
+Proof-of-work has been identified as a major bottleneck of scalability of \textit{Bitcoin}  and has been tackled by replacing it with some useful work \cite{filecoin-storage} or with a new system architecture \cite{RSCoin-bank}.  Replacment of proof-of-work with some
+efficient actions in blockchain-based systems can bring a great number of benefits since the usually wasted resources aggreate to an enormous amount of  computational power \cite{bitcoin-comp-elec-power}. Cloud data centers are not an exception for such an
 improvement. Data center environements are usually highly optimized and any system resource wastage is considered as critical and intolerable \cite{google-ai-power, facebook-cold-storage-rack}. Due to such stringent data center requirements, in-data center services
 shall not incur any overhead on the miners for maintaining a globally shared blockchain and shall not result in misuse of CPU or any other resource. Considering this, we propose a paradigm called 'Proof-of-Statistics', which employs the miners as ordinary computaion nodes
-for performing statistical operations on received data. The CPUs and other resources are dedicated to actions that are extensively conducted in modern data centers \cite{microsoft-autopilot} and which provide the miners with a reward. 
+for performing statistical operations on received data. The CPUs and other resources are dedicated to actions that are extensively conducted in modern data centers \cite{microsoft-autopilot} and which provide the miners with a reward.
 
 \begin{figure}[h!]
   \includegraphics[width=0.6\linewidth]{figures/project_design.png}
@@ -52,24 +56,24 @@ for performing statistical operations on received data. The CPUs and other resou
   \includegraphics[width=0.5\linewidth]{figures/central_entity_client_reg.png}
   \caption{Central Entity-Client Interaction}
   \label{fig:central_entity_client_reg}
-\end{figure}   
+\end{figure}
 
-\paragraph{Central Entity (Controller):} The role of the central entity is more administrative than system-crucial. Many cloud data centers employ central control units for controlling system updates \cite{microsoft-autopilot}, data flows \cite{google_jupiter}, or system errors \cite{microsoft_netpoirot}. \textit{\projTitle} relies on a centralized controller for admitting new miners/clients to the system. Such an approach is chosen as currently most data centers do not support multicast packets and it is relatively expensive to flood a data center network in order to get approved as a new miner or a client. Hence, having a well-know service reduces system complexity and ensures that no data center bandwidth is wasted for just transmitting registration packets. The central entity accepts a new client and provides it with enough information about the current miners (miner IP addresses and their public encryption keyss) so that it can become a part of the global ecosystem (Figure \ref{fig:central_entity_client_reg}). After retrieving the needed information, the client directly interacts with miners to have its work processed and stored. Due to this, the involvement of the central entity is minimal and does not require any computationally-intensive opeartions for handling client requests. Scalability is considred in the design and should not be an issue as similar systems exist in real deployments \cite{hadoop_example}. The work assumes that a commodity server should suffice for running the service in most cloud data centers. 
+\paragraph{Central Entity (Controller):} The role of the central entity is more administrative than system-crucial. Many cloud data centers employ central control units for controlling system updates \cite{microsoft-autopilot}, data flows \cite{google_jupiter}, or system errors \cite{microsoft_netpoirot}. \textit{\projTitle} relies on a centralized controller for admitting new miners/clients to the system. Such an approach is chosen as currently most data centers do not support multicast packets and it is relatively expensive to flood a data center network in order to get approved as a new miner or a client. Hence, having a well-know service reduces system complexity and ensures that no data center bandwidth is wasted for just transmitting registration packets. The central entity accepts a new client and provides it with enough information about the current miners (miner IP addresses and their public encryption keyss) so that it can become a part of the global ecosystem (Figure \ref{fig:central_entity_client_reg}). After retrieving the needed information, the client directly interacts with miners to have its work processed and stored. Due to this, the involvement of the central entity is minimal and does not require any computationally-intensive opeartions for handling client requests. Scalability is considred in the design and should not be an issue as similar systems exist in real deployments \cite{hadoop_example}. The work assumes that a commodity server should suffice for running the service in most cloud data centers.
 \par
 
 
 \noindent \newline On the other hand, the controller is also reponsible for approving new miners and supervising their integration into the current pool of miners. A new miner receives a list of the current miners $L$ and an approval certificate $Cr$ from the central entity.
 The approval certificate $Cr$ is signed by the central entity to ensure other miners that the newcomer has been approved to be a miner \cite{public-auth-certificate}.
 
-\paragraph{Clients:} Generating local system statistics (observing data flow latencies, thoughput, CPU utilization, and etc.) is prevalent in cloud data centers. However, the client of a data center can only be in charege of their own systems and are rather oblivious to the overall data center network. Despite storage of local system logs, measurements, the clients cannot go beyond their virtual networks (VNs) and are left with the locality drawback. Clients of \textit{\projTitle} can share their local statistics with the miners and get access to a more concise view of the entire network. A client is required to register for membership with the central entity (Figure \ref{fig:central_entity_client_reg}), and then directly communicate with the miners to send its local information about its system to the miners. The work assumes the clients are always honest and share their uncompromised information. However, if a client is dishonest and sends modified information to the miners, it may be identified as inconsistent and the client may lose its membership due to compromised statistics (\S\ \ref{ssec:work_of_miners}.     
-\par       
+\paragraph{Clients:} Generating local system statistics (observing data flow latencies, thoughput, CPU utilization, and etc.) is prevalent in cloud data centers. However, the client of a data center can only be in charege of their own systems and are rather oblivious to the overall data center network. Despite storage of local system logs, measurements, the clients cannot go beyond their virtual networks (VNs) and are left with the locality drawback. Clients of \textit{\projTitle} can share their local statistics with the miners and get access to a more concise view of the entire network. A client is required to register for membership with the central entity (Figure \ref{fig:central_entity_client_reg}), and then directly communicate with the miners to send its local information about its system to the miners. The work assumes the clients are always honest and share their uncompromised information. However, if a client is dishonest and sends modified information to the miners, it may be identified as inconsistent and the client may lose its membership due to compromised statistics (\S\ \ref{ssec:work_of_miners}.
+\par
 
 \paragraph{Miners:} Collect various system metrics from clients and produce a concise summary for the clients in a form of a shared block-chain ledger. Miners are the core of the system and take similar reponsibilities to the ones in \textit{Bitcoin} (Figure \ref{fig:miner_work_flow}). The major responsibility of the miners is to process system metrics in a required manner. Miners define a set $O$ of operations that they are capable of applying on particular data from a set $M$. Clients must be aware of the sets and only
 requests that comply with the both sets are processed by the miners. A request from a cloient is processed as it it described in (\S\ \ref{ssec:work_of_miners}) and the result of the request is shared among all the miners for voting and approval. Such a step is needed to
-ensure that all miners have the same information and that 'lazy' miners would be identified and removed from the set of the current miners. The loss of membership in the current set of miners is not the major contribution of the work, so it is not described anu furhter except 
-that a miner can lose its membership if other miners observe that the miner of interest is not contributing enough of its processing power. Each miner has to be aware of the other miners and keep track of a set $R_{miners} = \{r_1, ..., r_n\}$ which stores approximate rates, 
-of  miners' result publishing. If a rate, $r_i$, goes below a mediate value, $m_{miner}$, of all rates in the set $R_{miners}$, miners vote for removing a particular miner $i$ from the current miners. If the vast majority of the miners agree on the removal of a miner $i$, 
-the central entity must be informed about such a result so that the central entity would store the latest set of the current miners.    
+ensure that all miners have the same information and that 'lazy' miners would be identified and removed from the set of the current miners. The loss of membership in the current set of miners is not the major contribution of the work, so it is not described anu furhter except
+that a miner can lose its membership if other miners observe that the miner of interest is not contributing enough of its processing power. Each miner has to be aware of the other miners and keep track of a set $R_{miners} = \{r_1, ..., r_n\}$ which stores approximate rates,
+of  miners' result publishing. If a rate, $r_i$, goes below a mediate value, $m_{miner}$, of all rates in the set $R_{miners}$, miners vote for removing a particular miner $i$ from the current miners. If the vast majority of the miners agree on the removal of a miner $i$,
+the central entity must be informed about such a result so that the central entity would store the latest set of the current miners.
 \par
 
 
@@ -83,7 +87,7 @@ the central entity must be informed about such a result so that the central enti
 \subsection{Work of Miners}\label{ssec:work_of_miners}
 
 
-     
+
 \newpage
 \bibliographystyle{ieeetr}
 \bibliography{proposal}
