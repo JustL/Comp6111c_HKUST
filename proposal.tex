@@ -30,9 +30,24 @@ The public cloud, such as Amazon EC2\cite{}, Microsoft Azure\cite{}, etc., has b
 
 Another category of monitoring and diagnostic system is to collect data from network instead of endhosts. These methods usually require the support from the switches, such as NetFlow\cite{url/netflow} and sFlow\cite{url/sflow}. A more recent and advanced work is Marple\cite{sigcomm/marple}, which designs and implements a hardware-specific query language to efficiently query the switch status to infer the whole network system. To adopt those in-network monitoring and diagnostic system, cloud provider should use some \textbf{advanced network switches}, which also increases the operational cost for cloud data centers.
 
-Moreover, for cloud providers, all data he can collect is from physical machines or network. However, those data cannot clearly reflect the status inside the virtual machines. As a result, it may be very \textbf{difficult for cloud providers to provide accurate and effective monitoring and diagnostic service for users}.
+Moreover, for cloud providers, all data collected is from physical machines or network. However, those data cannot reflect the status inside the virtual machines, which are not efficient in detecting user's problem. As a result, it may be very \textbf{difficult for cloud providers to provide accurate and effective monitoring and diagnostic service for users}.
 
-\textbf{For users.} 
+\textbf{For users.}
+Users can deploy his own monitoring and diagnostic system inside all his virtual machines to provide high availiability. One example is users can deploy Ganglia\cite{url/ganglia} inside all their virtual machines. Ganglia will collect data from all virtual machines owned by the user and generate status report for users. Users can know the real-time status and predict the potential failure based on those report. However, in public cloud data centers, all computation resources are shared among the users. Virtual machines owned by different users may be placed on the same physical machines\cite{}. It would further benifit the monitoring and diagnostic if you can get the information from other virtual machines that has been placed together with your virtual machines. Here is an exmaple: if 10 VMs are placed on 1 physical machine and you only own one of them, when you see your application generates more error logs, you cannot tell whether the VMs has potential problems or it is just some accidental case. However, if you can access the application-level data of the other 9 VMs, when you observe that most of them experience a high error rate, we can tell with high confidence that the physical machine may have some problems and thus we should not use the VMs on this physical machines currently or report to the cloud provider. For users, \textbf{lack of global information in the whole cloud data centers} limit the effectiveness and accuracy of their monitoring and diagnostic systems.
+
+In conclusion, current monitoring and diagnostic systems in cloud data centers, either deployed by cloud providers or service users, suffer from the following drawbacks:
+
+For cloud providers:
+\begin{itemize}
+	\item Extra resource waste.
+	\item Lack of application-level information.
+\end{itemize}
+
+For users:
+\begin{itemize}
+	\item Lack of global information.
+\end{itemize}
+
 
 \section{Proof-of-Statistics}
 Proof-of-work has been identified as a major bottleneck of scalability of \textit{Bitcoin}  and has been tackled by replacing it with some useful work \cite{filecoin-storage} or with a new system architecture \cite{RSCoin-bank}.  Replacment of proof-of-work with some
