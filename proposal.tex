@@ -83,7 +83,6 @@ for performing statistical operations on received data. The CPUs and other resou
 \subsection{Data Flow and System Participants}
  \textit{Bitcoin} has applied a design of a globally shared ledger for recording all the transactions occurred in the system \cite{bitcoin_paper}. Such a design introduces differentiation between system nodes: \textit{miners} and \textit{currency users}. As though, despite its architectural issues and performance problems, \textit{Bitcoin} remains a global peer-to-peer network which is used by many users every day. Thus, it appears reasonable to adhere to the original proposal of \textit{Bitcoin} and segregate \textit{minders} from \textit{clients}. The proposed system, \textit{\projTitle}, exploits the fundamental principles of \textit{Bitcoin} with an extra entity: central controller, which, in data centers, may be the administrator of the data center (Figure \ref{fig:project_design}). The role of the central entity is minimal and is not crucial to implement the system. Though having a reliable controller unit simplifies the system and provides security benefits. The section will briefly explain the roles of each of the entities of the system and will describe a data processing path in the rest of the section.
 
-
 \begin{figure}[h]
   \includegraphics[width=0.5\linewidth]{figures/central_entity_client_reg.png}
   \caption{Central Entity-Client Interaction}
