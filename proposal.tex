@@ -23,7 +23,7 @@
 
 \maketitle
 
-\abstract{With the increasing popularity of cloud computing, users begin to deploy more critical services and applications on the cloud. To ensure high availability and reliability, monitoring and diagnostic system has become an important components for both cloud providers and users. However, currently, either deployed by the providers or users, those systems are not optimal. For cloud providers, they incur extra resource consumption and lack the ability to access user deployed application logs or status. For users, lack of global information restricts the effectiveness of the system. To solve this, we propose \projTitle. \projTitle leverages the block chain data structure and uses proof-of-statistics to increase the resource utilization. In the system, the cloud provider acts as the regulator of the system and the miniers are volunteers from the users. Via our evaluation with scalability and performance, we show \projTitle can .... . By comparing the value of information collected, \projTitle can largely outperforms the traditional monitoring and diagnostic systems due to its ability to access information from both physical and virtual machines.}
+\abstract{With the increasing popularity of cloud computing, users begin to deploy more critical services and applications on the cloud. To ensure high availability and reliability, monitoring and diagnostic systems have become an important components for both cloud providers and users. However, currently, either deployed by the providers or users, those systems are not optimal. For cloud providers, they incur extra resource consumption and lack the ability to access user deployed application logs or status. For users, lack of global information restricts the effectiveness of the system. To solve this, we propose \projTitle. \projTitle leverages the block chain data structure and uses proof-of-statistics to increase the resource utilization. In the system, the cloud provider acts as the regulator of the system and the miniers are volunteers from the users. Via our evaluation with scalability and performance, we understand how \projTitle can scale when the number of nodes increases. By comparing the value of information collected, \projTitle can largely outperforms the traditional monitoring and diagnostic systems due to its ability to access information from both physical and virtual machines.}
 
 \section{Introduction}
 The public cloud, such as Amazon EC2\cite{url/ec2}, Microsoft Azure\cite{url/azure}, etc., has been an ideal place for users to host their applications in recent years. The cloud computing dramatically benefit those users by providing low cost and pay-for-use computation resources, such as virtual machines (VMs). Users rent VMs from cloud service provider and deploy their applications inside VMs, such as web servers for HTTP request, FTP servers for file sharing and so on. With the increasing popularity of cloud computing, users begin to deploy some critical applications or services, such as financial analytical service or human resource management systems, on the cloud. How to guarantee that those services or applications will not fail accidently poses great challenges for both cloud providers and users. Traditionally, by deploying a monitoring and diagnostic system, it can mitigate the risk of those grey failure, but we will show in the following parts that it is not easy and optimal for either the cloud provider or the users to deploy such an monitoring and diagnostic systems.
@@ -144,9 +144,10 @@ Miners dedicate their computational power to process client requests and aggrega
 As mentioned before, the miners of \textit{\projTitle} process the requests from clients in statistical manner and computes statistical metrics as a result. The process of handling a request is called \textit{Proof-of-Statistics} since a miner does useful work to create a new block of the blockchain. Different statistics can be  computed on different performance metrics, $O$, on the provided data. Due to space limitation, this section only focuses on flow completion times (FCTs) and network throughput since these two metrics are among the most important ones for networking.
 
 \noindent \newline A client shares with a miners its FCTs, traffic matrix, and throughput together with hardware specifications such as NIC Capacity, number of cores, and others. The miner applies an operation $o \in O$ on the data, computes statistics of the data, $S_{sample} = \{s_1, ..., s_k\}$, and updates the results of the corresponsing global values $S_{global} = \{g_1, ..., g_k\}$.
-The computed statisitcs are first checked for compliance with the global values (\S\ \ref{ssec:malicious_client}) to filter out malicious clients before updating the global values, $S_{global}$. However, as it has been mentioned before, this step is optional since \textit{\projTitle} assumes honest clients.
+The computed statisitcs are first checked for compliance with the global values (\S\ \ref{sssec:malicious_client}) to filter out malicious clients before updating the global values, $S_{global}$. However, as it has been mentioned before, this step is optional since \textit{\projTitle} assumes honest clients.
 
-\subsubsection{Malicious Clients} \label{sssec:malicious_client}
+\subsubsection{Malicious Clients}
+\label{sssec:malicious_client}
 \textit{\projTitle} assumes honest clients, but includes an optional step in the acceptance of a request. Since each of the miners stores the global infomration, it is easy for each of the miner to retrieve the global statistics of all clients, $S_{global}$. After computing the statistics of a recieved request, $S_{sample}$, the responsible miner can compare them with the corresponing global ones. Hypothesis testing or known distribution fitting \cite{walpole_statistics} are considered as powerful enough tools to detect extremely malicious clients. It is well-known that data center workloads follow long-tailed distributions \cite{diurnal_pattern_data_center_2, dctcp_ref, pFabric_ref}, so such a fact can make it easier to detect dishonest clients.
 
 \subsection{Approval of a New Result}
@@ -161,7 +162,7 @@ In this evaluation section, we are going to answer the following questions:
 
 \begin{itemize}
   \item How does \projTitle scale when the number of users/miners are increasing ? \\
-      \projTitle can (\S~\ref{ssec:eval_scalability})
+      Evaluation was performed to show the communication overhead of \projTitle when the number of nodes(both miners and users) increases. (\S~\ref{ssec:eval_scalability})
   \item How does \projTitle perform compared to the systems deployed either by users and cloud providers in accuracy and efficiency ? \\
       \projTitle can largely outperform exiting solutions by gaining the access to both user-level and global information. (\S~\ref{ssec:eval_performance})
 \end{itemize}
@@ -197,7 +198,7 @@ Figure~\ref{fig:performance} shows the results of performance comparison among \
 We propose \projTitle in this report, which mitigates the drawbacks of systems both deployed by the cloud providers or users. We also perform Python based simulations to show that \projTitle have good scalability. Moreover, by gaining the access to both application-level logs and global information, \projTitle can largely outperform the existing monitoring and diagnostic systems. \projTitle has the potential ability to play big as the novel monitoring and diagnostic systems in cloud data centers.
 
 \newpage
-\bibliographystyle{ieeetr}
+\bibliographystyle{IEEEtran}
 \bibliography{proposal}
 
 \end{document}
