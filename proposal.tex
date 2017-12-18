@@ -163,7 +163,7 @@ In this evaluation section, we are going to answer the following questions:
   \item How does \projTitle scale when the number of users/miners are increasing ? \\
       \projTitle can (\S~\ref{ssec:eval_scalability})
   \item How does \projTitle perform compared to the systems deployed either by users and cloud providers in accuracy and efficiency ? \\
-      \projTitle can (\S~\ref{ssec:eval_performance})
+      \projTitle can largely outperform exiting solutions by gaining the access to both user-level and global information. (\S~\ref{ssec:eval_performance})
 \end{itemize}
 
 \subsection{Methodology}
@@ -174,7 +174,7 @@ We use Python to execute our simulations. For scalability evaluation, we are eva
 
 \subsection{Performance comparison}
 Figure~\ref{fig:performance} shows the results of performance comparison among \projTitle, system deployed by the users and the system deployed by the cloud providers. We observe that the system deployed by the users get the lowest valuable information since users can only access their own virtual machines. Lack of global information has lead to suboptimal performance for users. Furthermore, system provided by the cloud provider is also $~20\times$ worse than \projTitle due to the lack of user-level information. \projTitle achieves the best performance by combining both the information from physical machines and virtual machines, and large outperforms the other two systems.
- 
+
 \label{ssec:eval_performance}
 \begin{figure}[h]
 \label{fig:performance}
@@ -185,7 +185,7 @@ Figure~\ref{fig:performance} shows the results of performance comparison among \
 \end{figure}
 
 \section{Conclusion}
-
+We propose \projTitle in this report, which mitigates the drawbacks of systems both deployed by the cloud providers or users. We also perform Python based simulations to show that \projTitle have good scalability. Moreover, by gaining the access to both application-level logs and global information, \projTitle can largely outperform the existing monitoring and diagnostic systems. \projTitle has the potential ability to play big as the novel monitoring and diagnostic systems in cloud data centers.
 
 \newpage
 \bibliographystyle{ieeetr}
