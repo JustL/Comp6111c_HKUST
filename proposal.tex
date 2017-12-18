@@ -74,12 +74,23 @@ improvement. Data center environments are usually highly optimized and any syste
 shall not incur any overhead on the miners for maintaining a globally shared blockchain and shall not result in misuse of CPU or any other resource. Considering this, we propose a paradigm called 'Proof-of-Statistics', which employs the miners as ordinary computation nodes
 for performing statistical operations on received data. The CPUs and other resources are dedicated to actions that are extensively conducted in modern data centers \cite{microsoft-autopilot} and which provide the miners with a reward.
 
-\begin{figure}[h!]
-  \includegraphics[width=0.6\linewidth]{figures/project_design.png}
-  \caption{High-level Design of \textit{\projTitle}}
-  \label{fig:project_design}
-\end{figure}
 
+\section{System Architecture and Proof-of-Statistics}
+Proof-of-work has been identified as a major bottleneck of scalability of \textit{Bitcoin}  and has been tackled by replacing it with some useful work \cite{filecoin-storage} or with a new system architecture \cite{RSCoin-bank}.  Replacment of proof-of-work with some  
+efficient actions in blockchain-based systems can bring a great number of benefits since the usually wasted resources aggreate to an enormous amount of  computational power \cite{bitcoin-comp-elec-power}. Cloud data centers are not an exception for such an 
+improvement. Data center environements are usually highly optimized and any system resource wastage is considered as critical and intolerable \cite{google-ai-power, facebook-cold-storage-rack}. Due to such stringent data center requirements, in-data center services
+shall not incur any overhead on the miners for maintaining a globally shared blockchain and shall not result in misuse of CPU or any other resource. Considering this, we propose \textit{\projTitle}, a distributed system for employing the miners as ordinary computaion nodes for performing statistical operations on performance metrics of data center clients. The CPUs and other resources are dedicated to actions that are extensively conducted in modern data centers \cite{microsoft-autopilot} and which provide the miners with a reward - realistic data center characteristics. \textit{\projTitle} assumes that the miners are willing to dedicate their resources for collecting performance data from data center clients for personal use (research purposes) or for providing a service for the clients to improve their own infrastructure wthough a global view of the entire facility.
+
+The rest of the section will describe the architecture of the system in \S\ \ref{ssec:system_design_and_flow} and will explain
+the processing of data at miners in \S\ \ref{ssec:work_of_miners}. 
+
+\begin{figure}[h!]
+  \begin{center}
+    \includegraphics[width=0.8\linewidth]{figures/project_design.png}
+    \caption{High-level Design of \textit{\projTitle}}
+    \label{fig:project_design}
+  \end{center}
+\end{figure}
 
 \subsection{Data Flow and System Participants}
  \textit{Bitcoin} has applied a design of a globally shared ledger for recording all the transactions occurred in the system \cite{bitcoin_paper}. Such a design introduces differentiation between system nodes: \textit{miners} and \textit{currency users}. As though, despite its architectural issues and performance problems, \textit{Bitcoin} remains a global peer-to-peer network which is used by many users every day. Thus, it appears reasonable to adhere to the original proposal of \textit{Bitcoin} and segregate \textit{minders} from \textit{clients}. The proposed system, \textit{\projTitle}, exploits the fundamental principles of \textit{Bitcoin} with an extra entity: central controller, which, in data centers, may be the administrator of the data center (Figure \ref{fig:project_design}). The role of the central entity is minimal and is not crucial to implement the system. Though having a reliable controller unit simplifies the system and provides security benefits. The section will briefly explain the roles of each of the entities of the system and will describe a data processing path in the rest of the section.
@@ -91,6 +102,20 @@ for performing statistical operations on received data. The CPUs and other resou
 \end{figure}
 
 \paragraph{Central Entity (Controller):} The role of the central entity is more administrative than system-crucial. Many cloud data centers employ central control units for controlling system updates \cite{microsoft-autopilot}, data flows \cite{google_jupiter}, or system errors \cite{microsoft_netpoirot}. \textit{\projTitle} relies on a centralized controller for admitting new miners/clients to the system. Such an approach is chosen as currently most data centers do not support multicast packets and it is relatively expensive to flood a data center network in order to get approved as a new miner or a client. Hence, having a well-know service reduces system complexity and ensures that no data center bandwidth is wasted for just transmitting registration packets. The central entity accepts a new client and provides it with enough information about the current miners (miner IP addresses and their public encryption keys) so that it can become a part of the global ecosystem (Figure \ref{fig:central_entity_client_reg}). After retrieving the needed information, the client directly interacts with miners to have its work processed and stored. Due to this, the involvement of the central entity is minimal and does not require any computationally-intensive operations for handling client requests. Scalability is considered in the design and should not be an issue as similar systems exist in real deployments \cite{hadoop_example}. The work assumes that a commodity server should suffice for running the service in most cloud data centers.
+
+\subsection{Data Flow and System Participants} \label{ssec:system_design_and_flow}
+ \textit{Bitcoin} has applied a design of a globally shared ledger for recording all the transactions occured in the system \cite{bitcoin_paper}. Such a design introduces differentiation between system nodes: \textit{miners} and \textit{currency users}. As though, despite its architectural issues and perforamnce problems, \textit{Bitcoin} remains a global peer-to-peer network which is used by many users every day. Thus, it appears reasonable to adhere to the original proposal of \textit{Bitcoin} and segregate \textit{miners} from \textit{clients}. The proposed system, \textit{\projTitle}, exploits the fundamental principles of \textit{Bitcoin} with an extra entity: \textit{central controller}, which, in data centers, may be the administrator of the data center (Figure \ref{fig:project_design}). The role of the central entity is minimal and is not crucial to implement the system. Though having a reliable controller unit simplifies the system and provides security benefits. The subsection will briefly explain the roles of each of the entities of the system and will describe communication flow between the system entities.
+
+
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=0.6\linewidth]{figures/central_entity_client_reg.png}
+    \caption{Central Entity-Client Interaction}
+    \label{fig:central_entity_client_reg}
+  \end{center}
+\end{figure}   
+
+\paragraph{Central Entity (Controller):} The role of the central entity is more administrative than system-crucial. Many cloud data centers employ central control units for controlling system updates \cite{microsoft-autopilot}, data flows \cite{google_jupiter}, or system errors \cite{microsoft_netpoirot}. \textit{\projTitle} relies on a centralized controller for admitting new miners/clients to the system. Such an approach is chosen as currently most data centers do not support multicast packets and it is relatively expensive to flood a data center network in order to get approved as a new miner or a client. Hence, having a well-know service reduces system complexity and ensures that no data center bandwidth is wasted for just transmitting registration packets. The central entity accepts a new client and provides it with enough information about the current miners (miner IP addresses and their public encryption keys) so that it can become a part of the global ecosystem (Figure \ref{fig:central_entity_client_reg}). After retrieving the needed information, the client directly interacts with miners to have its work processed and stored. Due to this, the involvement of the central entity is minimal and does not require any computationally-intensive opeartions for handling client requests. Scalability is considred in the design and should not be an issue as similar systems exist in real deployments \cite{hadoop_example}. The work assumes that a commodity server should suffice for running the service in most cloud data centers. 
 \par
 
 
@@ -106,20 +131,44 @@ ensure that all miners have the same information and that 'lazy' miners would be
 that a miner can lose its membership if other miners observe that the miner of interest is not contributing enough of its processing power. Each miner has to be aware of the other miners and keep track of a set $R_{miners} = \{r_1, ..., r_n\}$ which stores approximate rates,
 of  miners' result publishing. If a rate, $r_i$, goes below a mediate value, $m_{miner}$, of all rates in the set $R_{miners}$, miners vote for removing a particular miner $i$ from the current miners. If the vast majority of the miners agree on the removal of a miner $i$,
 the central entity must be informed about such a result so that the central entity would store the latest set of the current miners.
+
+\paragraph{Clients:} Generating local system statistics (observing data flow latencies, thoughput, CPU utilization, and etc.) is prevalent in cloud data centers. However, clients of a cloud data center can only be in charge of their own systems and are rather oblivious to the overall data center network. Despite storage of local system logs, measurements, the clients cannot go beyond their virtual networks (VNs) and are left with the locality drawback. Clients of \textit{\projTitle} can share their local statistics with the miners and get access to a more concise view of the entire network. A client is required to register for membership with the central entity (Figure \ref{fig:central_entity_client_reg}), and then directly communicate with the miners to send its local information about its system to the miners. The work assumes the clients are always honest and share their uncompromised information. However, if a client is dishonest and sends modified information to the miners, it may be identified as inconsistent and the client may lose its membership due to compromised statistics (\S\ \ref{ssec:work_of_miners}). 
+
+\noindent \newline Furthermore, clients use a popular teqchine the power of two choices \cite{power_of_two_choices} for selecting  miners. A Client query two random miners and chooses the one out of two with lower load (lower CPU utilization, memory utilization, shorter request queue). There is no incentice for the miners to lie about its load since eventually all miners receive the same information about active clients.s  
+\par       
+
+\paragraph{Miners:} Collecting various system metrics from clients and producing a concise summary for the clients in a form of a aggreagted log.The miners are the core of the system and take similar reponsibilities to the ones in \textit{Bitcoin} (Figure \ref{fig:miner_work_flow}). The major responsibility of the miners is to process system metrics in a required manner.The miners define a set $O$ of operations that they are capable of applying on particular data from a set $M$. Clients must be aware of the sets and only requests that comply with the both sets are processed by the miners. A request from a client is processed as it it described in \S\ \ref{ssec:work_of_miners} and the result of the request is shared among all the miners for voting and approval. Such a step is needed to ensure that all miners have the same information and that 'lazy' miners would be identified and removed from the set of the current miners. The loss of membership in the current set of miners is not the major contribution of the work, so it is not described in detail. A miner can lose its membership if other miners observe that the miner of interest is not contributing enough of its processing power. Each miner has to be aware of the other miners and keep track of a set $R_{miners} = \{r_1, ..., r_n\}$ which stores approximate rates, of  miners' result publishing. If a rate, $r_i$, goes below a value $m_{miner}$,  for example, lower quartile of all rates in the set $R_{miners}$ or some fixed percent below the mediate value of all rates, miners vote for removing a particular miner $i$ from the current miners. If the vast majority of the miners agree on the removal of a miner $i$,  the central entity must be informed about such a result so that the central entity would store the latest set of the current miners.    
 \par
 
 
 \begin{figure}[h]
-  \includegraphics[width=0.5\linewidth]{figures/miner_work_diagram.png}
-  \caption{Flow of a Miner's Work}
-  \label{fig:miner_work_flow}
+  \begin{center}
+    \includegraphics[width=0.6\linewidth]{figures/miner_work_diagram.png}
+    \caption{Flow of a Miner's Work}
+    \label{fig:miner_work_flow}
+  \end{center}
 \end{figure}
 
 
 \subsection{Work of Miners}\label{ssec:work_of_miners}
+Miners dedicate their computational power to process client requests and aggregate statistical information from all the requests. The processed information is stored in a blockchain-based ledger and each new block is only appended to it if more than $50\%$ of current miners approve it. Also, the blockchain naturally provides a timestamp sequence which is important to computation and inference since data center workloads experience diurnal patterns \cite{diurnal_pattern_data_center_1, diurnal_pattern_data_center_2}. The rest of this section will focus on the statistical computation of a request (\S\ \ref{sssec:proof_of_statistics}) and how a client can be identified as a malicious one in some cases (\S\ \ref{sssec:malicious_client}). 
 
+\subsubsection{Proof-of-Statistics}\label{sssec:proof_of_statistics}
+As mentioned before, the miners of \textit{\projTitle} process the requests from clients in statistical manner and computes statistical metrics as a result. The process of handling a request is called \textit{Proof-of-Statistics} since a miner does useful work to create a new block of the blockchain. Different statistics can be  computed on different performance metrics, $O$, on the provided data. Due to space limitation, this section only focuses on flow completion times (FCTs) and network throughput since these two metrics are among the most important ones for networking. 
 
+\noindent \newline A client shares with a miners its FCTs, traffic matrix, and throughput together with hardware specifications such as NIC Capacity, number of cores, and others. The miner applies an operation $o \in O$ on the data, computes statistics of the data, $S_{sample} = \{s_1, ..., s_k\}$, and updates the results of the corresponsing global values $S_{global} = \{g_1, ..., g_k\}$. 
+The computed statisitcs are first checked for compliance with the global values (\S\ \ref{ssec:malicious_client}) to filter out malicious clients before updating the global values, $S_{global}$. However, as it has been mentioned before, this step is optional since \textit{\projTitle} assumes honest clients.
 
+\subsubsection{Malicious Clients} \label{sssec:malicious_client}
+\textit{\projTitle} assumes honest clients, but includes an optional step in the acceptance of a request. Since each of the miners stores the global infomration, it is easy for each of the miner to retrieve the global statistics of all clients, $S_{global}$. After computing the statistics of a recieved request, $S_{sample}$, the responsible miner can compare them with the corresponing global ones. Hypothesis testing or known distribution fitting \cite{walpole_statistics} are considered as powerful enough tools to detect extremely malicious clients. It is well-known that data center workloads follow long-tailed distributions \cite{diurnal_pattern_data_center_2, dctcp_ref, pFabric_ref}, so such a fact can make it easier to detect dishonest clients.   
+
+\subsection{Approval of a New Result}
+As it is shown in (Figure \ref{fig:miner_work_flow}), a miner has to share its computation with the rest of the miners.  This step is required so that other miners could update their shared information and also check if the new request is not from a 'lazy' miner (\S\ \ref{ssec:system_design_and_flow}). A miner, $i$, is capable of  reusing an old processed request from a client in order to ensure a high publishing rate, $r_i$. \textit{\projTitle} uses a simplistic method of checking for miner's reliability since the work assumes that miners should not have high incentice to compromise the global information since the information is supposed to be used by the miners for their personal work (e.g., researcher may use the collected data for their publications). 
+
+\noindent \newline A set of other miners, $A= \{a_i, ..., a_t\}, \; \; where \; \; |A| > 50\% \; \; of \; \; miners$ , query the client whose request has been processed by the miner $i$. If the client has no pending requests or its pending requests have different sequence numbers, $Seq$, then the miners reject the processed request. If the request is approved, each of the miners update the publishing rate, $r_i$, and the global information (approves the request).
+
+\noindent \newline After the voting step, the miner $i$ sends an encrypted block $B_{ecr}$ by using a public key,$pr_j$ , to the client $j$, who has sent the request for processing. The block, $B_{ecr}$, contains processed request together with global data $S_{global}$  and other related information to $S_{global}$.  
+ 
 \newpage
 \bibliographystyle{ieeetr}
 \bibliography{proposal}
