@@ -13,7 +13,7 @@
 \usepackage{comment}
 
 
-\newcommand{\projTitle}{SOME TITLE TO INSERT\xspace}
+\newcommand{\projTitle}{BitMesh\xspace}
 
 \title{COMP6111C Project Proposal}
 \author{Justinas LINGYS, 20082250 \\ Junxue ZHANG, 20371613}
@@ -23,7 +23,7 @@
 
 \maketitle
 
-\abstract{With the increasing popularity of cloud computing, users begin to deploy more critical services and applications on the cloud. To ensure high availability and reliability, monitoring and diagnostic system has become an important components for both cloud providers and users. However, currently, either deployed by the providers or users, those systems are not optimal. For cloud providers, they incur extra resource consumption and lack the ability to access user deployed application logs or status. For users, lack of global information restricts the effectiveness of the system. To solve this, we propose \projTitle. \projTitle leverages the block chain data structure and uses proof-of-statistics to increase the resource utilization. In the system, the cloud provider acts as the regulator of the system and the miniers are volunteers from the users. We also conduct ...}
+\abstract{With the increasing popularity of cloud computing, users begin to deploy more critical services and applications on the cloud. To ensure high availability and reliability, monitoring and diagnostic system has become an important components for both cloud providers and users. However, currently, either deployed by the providers or users, those systems are not optimal. For cloud providers, they incur extra resource consumption and lack the ability to access user deployed application logs or status. For users, lack of global information restricts the effectiveness of the system. To solve this, we propose \projTitle. \projTitle leverages the block chain data structure and uses proof-of-statistics to increase the resource utilization. In the system, the cloud provider acts as the regulator of the system and the miniers are volunteers from the users. Via our evaluation with scalability and performance, we show \projTitle can .... . By comparing the value of information collected, \projTitle can largely outperforms the traditional monitoring and diagnostic systems due to its ability to access information from both physical and virtual machines.}
 
 \section{Introduction}
 The public cloud, such as Amazon EC2\cite{url/ec2}, Microsoft Azure\cite{url/azure}, etc., has been an ideal place for users to host their applications in recent years. The cloud computing dramatically benefit those users by providing low cost and pay-for-use computation resources, such as virtual machines (VMs). Users rent VMs from cloud service provider and deploy their applications inside VMs, such as web servers for HTTP request, FTP servers for file sharing and so on. With the increasing popularity of cloud computing, users begin to deploy some critical applications or services, such as financial analytical service or human resource management systems, on the cloud. How to guarantee that those services or applications will not fail accidently poses great challenges for both cloud providers and users. Traditionally, by deploying a monitoring and diagnostic system, it can mitigate the risk of those grey failure, but we will show in the following parts that it is not easy and optimal for either the cloud provider or the users to deploy such an monitoring and diagnostic systems.
@@ -160,22 +160,32 @@ As it is shown in (Figure \ref{fig:miner_work_flow}), a miner has to share its c
 In this evaluation section, we are going to answer the following questions:
 
 \begin{itemize}
-  \item How does \projTitle scale when the number of users/miners are increasing ?
-  \item How does \projTitle perform compared to the systems deployed either by users and cloud providers in accuracy and efficiency ?
+  \item How does \projTitle scale when the number of users/miners are increasing ? \\
+      \projTitle can (\S~\ref{ssec:eval_scalability})
+  \item How does \projTitle perform compared to the systems deployed either by users and cloud providers in accuracy and efficiency ? \\
+      \projTitle can (\S~\ref{ssec:eval_performance})
 \end{itemize}
 
 \subsection{Methodology}
-\noindent\textbf{Simulation setup: } \\ 
-We use Python to execute our simulations. 
+We use Python to execute our simulations. For scalability evaluation, we are evaluating the message complexity when the number of users/miners increase. We capture the message sent during the whole monitoring and diagnostic process. For performance comparison. We compare \projTitle with systems deployed by cloud providers and users respectively. We use the information value $V$ to denote the value of information collected by the whole system. In this evaluation, we assume we have 1000 physical machines, each contains around 4 virtual machines. One user owns around 20 virtual machines. The information generated in the VMs are more valuable compared to the information generated from the physical machines (hypervisors).
 
-\noindent\textbf{Schemes to compare:}
+\subsection{Scalability}
+\label{ssec:eval_scalability}
 
-
-\noindent\textbf{Metrics: }
-
-\subsection{Results}
+\subsection{Performance comparison}
+Figure~\ref{fig:performance} shows the results of performance comparison among \projTitle, system deployed by the users and the system deployed by the cloud providers. We observe that the system deployed by the users get the lowest valuable information since users can only access their own virtual machines. Lack of global information has lead to suboptimal performance for users. Furthermore, system provided by the cloud provider is also $~20\times$ worse than \projTitle due to the lack of user-level information. \projTitle achieves the best performance by combining both the information from physical machines and virtual machines, and large outperforms the other two systems.
+ 
+\label{ssec:eval_performance}
+\begin{figure}[h]
+\label{fig:performance}
+\center
+\includegraphics[width=0.6\linewidth]{figures/peformance.pdf}
+\caption{Performance of \projTitle compared with systems deployed either by cloud providers or users. The \projTitle gains the most information value because it can access both the user-level application logs and global information.}
+\label{fig:miner_work_flow}
+\end{figure}
 
 \section{Conclusion}
+
 
 \newpage
 \bibliographystyle{ieeetr}
