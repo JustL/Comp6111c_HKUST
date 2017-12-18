@@ -171,6 +171,15 @@ We use Python to execute our simulations. For scalability evaluation, we are eva
 
 \subsection{Scalability}
 \label{ssec:eval_scalability}
+A diagnostic system has to scale to a large number of nodes. Due to this, \projTitle has been evaluated in terms of the number of generated messages in the system (system workload) at different numbers of miners and clients (Figure \ref{fig:complexity_measure}). The graph shows the number of messages generated in the system when each client generates a request. The rate of the request is not considered in the graph since it is not easy to approcimate such a values, however, it has been reported that traditional very large data centers collect performance metrics from the servers once a few seconds \cite{microsoft-autopilot} in order to avoid overloading the network. The overall number of messages generated per request provides a rough idea about how much work the miners would to handle without mining, only for communication. We leave the more thorough evaluation for future work as it may require extra system resources.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\linewidth]{figures/complexity_of_communication.png}
+\caption{Communication Complexity of \projTitle in terms of generated messages.}
+\label{fig:complexity_measure}
+\center
+\end{figure}
 
 \subsection{Performance comparison}
 Figure~\ref{fig:performance} shows the results of performance comparison among \projTitle, system deployed by the users and the system deployed by the cloud providers. We observe that the system deployed by the users get the lowest valuable information since users can only access their own virtual machines. Lack of global information has lead to suboptimal performance for users. Furthermore, system provided by the cloud provider is also $~20\times$ worse than \projTitle due to the lack of user-level information. \projTitle achieves the best performance by combining both the information from physical machines and virtual machines, and large outperforms the other two systems.
